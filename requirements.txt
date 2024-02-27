@@ -1,2 +1,3 @@
 requests
 pyyaml
+# No additional dependencies identified for .ndjson handling at this time.

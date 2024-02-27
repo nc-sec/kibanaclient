@@ -1,0 +1,7 @@
+{
+    "auth_type": "basic",
+    "username": "admin",
+    "password": "admin",
+    "api_key": "your_api_key",
+    "kibana_url": "http://localhost:8080"
+}

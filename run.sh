@@ -3,9 +3,9 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# b) Set environment variables for Elastic Cloud ID and API Key
-export ELASTIC_CLOUD_ID="your_elastic_cloud_id"
-export ELASTIC_API_KEY="your_elastic_api_key"
-
-# c) Run all necessary parts of the codebase
-python entrypoint.py &
+# b) Run all necessary parts of the codebase
+# Note: The provided codebase does not include an entry point to run the application.
+# However, if there were scripts to run, they would be executed as follows (in parallel if necessary):
+# python script1.py &
+# python script2.py &
+# wait

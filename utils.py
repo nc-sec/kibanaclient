@@ -1,2 +1,1 @@
-# Utility functions for the client library
-# ...
+# Utility functions will be added here as needed

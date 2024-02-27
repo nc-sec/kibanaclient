@@ -1,27 +1,24 @@
-class Auth:
-    def __init__(self, username=None, password=None, api_key=None):
-        self.username = username
-        self.password = password
-        self.api_key = api_key
-        self.headers = self._generate_headers()
+import requests
+from config import ConfigLoader
 
-    def _generate_headers(self):
-        # Method to generate headers for authentication
-        headers = {
-            "Content-Type": "application/json",
-            "kbn-xsrf": "true"
-        }
-        if self.api_key:
-            headers["Authorization"] = f"ApiKey {self.api_key}"
-        elif self.username and self.password:
-            headers["Authorization"] = f"Basic {self._encode_credentials()}"
-        return headers
+class Authenticator:
+    """Handles authentication with basic auth or an API key."""
+    
+    def __init__(self, config_loader: ConfigLoader):
+        self.config = config_loader.config
+        self.session = requests.Session()
 
-    def _encode_credentials(self):
-        # Method to encode the username and password for Basic Auth
-        import base64
-        credentials = f"{self.username}:{self.password}"
-        return base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
+    def login(self):
+        """Logs in to Elastic Cloud or on-premise instances."""
+        auth_type = self.config.get('auth_type')
+        if auth_type == 'basic':
+            self.session.auth = (self.config['username'], self.config['password'])
+        elif auth_type == 'api_key':
+            self.session.headers.update({'Authorization': f"ApiKey {self.config['api_key']}"})
+        else:
+            raise ValueError("Unsupported authentication type")
 
-    # Additional authentication methods if needed
-    # ...
+        # Perform login to get session cookie
+        login_url = self.config['kibana_url'] + '/api/security/v1/login'
+        response = self.session.post(login_url)
+        response.raise_for_status()  # Raise an error if login failed

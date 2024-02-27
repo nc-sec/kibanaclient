@@ -1,0 +1,3 @@
+requests
+# Added elasticsearch library for additional ElasticSearch functionalities
+elasticsearch
